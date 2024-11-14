@@ -1,7 +1,7 @@
 ![](https://i.imgur.com/YWDZ0pA.png)
 
 
-RoseLoot is a highly configurable custom loot plugin allowing the loot manipulation of mobs, blocks, fishing, chests, piglin bartering, advancements, archaeology, vaults, and trial spawners!
+RoseLoot 是一个高度可配置的自定义战利品插件，允许对生物、方块、钓鱼、箱子、猪灵以物易物、进度、考古、金库和试用刷怪箱进行战利品操作！
 
 ### Documentation
 Instructions on how to use the plugin and create custom loot tables can be found [in our Wiki](https://github.com/Rosewood-Development/RoseLoot/wiki)!
