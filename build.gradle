@@ -1,17 +1,17 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'com.gradleup.shadow' version '8.3.5'
     id 'java-library'
     id 'maven-publish'
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
 group = 'dev.rosewood'
-version = '1.2.19'
+version = '1.2.21-SNAPSHOT'
 
 java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
     toolchain.languageVersion.set(JavaLanguageVersion.of(21))
     disableAutoTargetJvm()
 }
@@ -33,14 +33,15 @@ repositories {
     maven { url = 'https://repo.auxilor.io/repository/maven-public/' }
     maven { url = 'https://erethon.de/repo/' }
     maven { url = 'https://maven.playpro.com/' }
-    maven { url = 'https://mvn.lumine.io/repository/maven-public/' }
+    maven { url = 'https://nexus.phoenixdevt.fr/repository/maven-public/' }
     maven { url = 'https://r.irepo.space/maven/' }
+    maven { url = 'https://repo.momirealms.net/releases/' }
     maven { url = 'https://libraries.minecraft.net/' }
     maven { url = 'https://jitpack.io/' }
 }
 
 dependencies {
-    compileOnly 'io.papermc.paper:paper-api:1.21.3-R0.1-SNAPSHOT'
+    compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
     compileOnly 'com.mojang:authlib:1.5.21'
     compileOnly 'org.jetbrains:annotations:23.0.0'
     compileOnly 'com.github.milkbowl:vault:1.7.3'
@@ -49,16 +50,21 @@ dependencies {
     compileOnly 'me.realized:tokenmanager:3.2.5'
     compileOnly 'su.nightexpress:coinsengine:2.2.0.1'
     compileOnly 'su.nightexpress:nightcore:2.5.1'
-    compileOnly 'io.lumine:MythicLib-dist:1.3.1'
-    compileOnly 'net.Indyuce:MMOItems:6.7.3'
-    compileOnly 'net.Indyuce:MMOCore:1.9.3'
+    compileOnly 'io.lumine:MythicLib-dist:1.7.1-SNAPSHOT'
+    compileOnly 'io.lumine:Mythic-Dist:5.4.0'
+    compileOnly 'net.Indyuce:MMOItems-API:6.9.5-SNAPSHOT'
+    compileOnly 'net.Indyuce:MMOCore-API:1.13.1-SNAPSHOT'
     compileOnly 'com.github.jojodmo:ItemBridge:master-SNAPSHOT'
-    compileOnly 'com.ssomar:score:3.9.72'
+    compileOnly 'com.ssomar:score:5.24.12.29'
+    compileOnly 'com.ssomar:executableitems:7.24.12.29'
+    compileOnly 'com.ssomar:executableblocks:5.24.12.29'
     compileOnly 'com.github.LoneDev6:api-itemsadder:2.5.5'
     compileOnly 'de.erethon:caliburn:1.0.3'
     compileOnly 'com.github.oraxen:oraxen:1.161.0'
     compileOnly 'nl.knokko:customitems:9.18'
-    compileOnly 'com.github.emanondev:ItemEdit:2.17'
+    compileOnly 'com.github.emanondev:ItemEdit:2.17', {
+        exclude group: 'org.spigotmc'
+    }
     compileOnly 'thirtyvirus.uber:uberitems:2.6'
     compileOnly 'dev.luminescent:DeezItems:1.1.1@jar'
     compileOnly 'com.github.Slimefun:Slimefun4:RC-37'
@@ -75,21 +81,22 @@ dependencies {
     compileOnly 'com.dfsek.terra:bukkit:6.1.2-BETA+9abac34b8'
     compileOnly 'de.tr7zw:item-nbt-api-plugin:2.13.1'
     compileOnly 'net.coreprotect:coreprotect:21.0'
-    compileOnly 'com.github.Xiao-MoMi:Custom-Fishing:2.2.17'
+    compileOnly 'net.momirealms:custom-fishing:2.3.3'
     compileOnly 'dev.krakenied:blocktracker:1.0.5'
     compileOnly 'net.advancedplugins:advanceditems:1.9.4'
     compileOnly 'fr.maxlego08:zitems:1.0.0'
     compileOnly 'fr.maxlego08:zessentials:1.0.1.3'
+    compileOnly 'com.nexomc:nexo:0.4'
     compileOnly 'com.arcaniax:HeadDatabase-API:1.3.1', {
         exclude group: 'org.spigotmc'
     }
 
-    api 'dev.rosewood:rosegarden:1.4.4'
-    api 'dev.rosewood:rosegarden-compatibility:1.4.4'
+    api 'dev.rosewood:rosegarden:1.4.6'
+    api 'dev.rosewood:rosegarden-compatibility:1.4.6'
 }
 
 shadowJar {
-    archiveClassifier.set(null)
+    archiveClassifier.set('')
     minimize()
 
     relocate('dev.rosewood.rosegarden', 'dev.rosewood.roseloot.lib.rosegarden')
@@ -108,8 +115,8 @@ processResources {
 
 publishing {
     publications {
-        shadow(MavenPublication) { publication ->
-            project.shadow.component(publication)
+        shadow(MavenPublication) {
+            from components.shadow
             artifactId = 'roseloot'
             pom {
                 name = 'roseloot'
@@ -133,4 +140,4 @@ publishing {
 }
 
 build.dependsOn shadowJar
-publishShadowPublicationToMavenRepository.dependsOn jar
+generateMetadataFileForShadowPublication.dependsOn jar

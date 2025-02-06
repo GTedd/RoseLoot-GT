@@ -46,6 +46,7 @@ import dev.rosewood.roseloot.loot.condition.tags.HasSaddleCondition;
 import dev.rosewood.roseloot.loot.condition.tags.HumidityCondition;
 import dev.rosewood.roseloot.loot.condition.tags.InFluidCondition;
 import dev.rosewood.roseloot.loot.condition.tags.InputItemCondition;
+import dev.rosewood.roseloot.loot.condition.tags.InventoryContainsCondition;
 import dev.rosewood.roseloot.loot.condition.tags.KilledByCondition;
 import dev.rosewood.roseloot.loot.condition.tags.LegacyFeatureCondition;
 import dev.rosewood.roseloot.loot.condition.tags.LightLevelCondition;
@@ -90,6 +91,7 @@ import dev.rosewood.roseloot.loot.item.ParticleLootItem;
 import dev.rosewood.roseloot.loot.item.PotionEffectLootItem;
 import dev.rosewood.roseloot.loot.item.RandomNumberLootItem;
 import dev.rosewood.roseloot.loot.item.RoseStackerLootItem;
+import dev.rosewood.roseloot.loot.item.SCoreVariableLootItem;
 import dev.rosewood.roseloot.loot.item.SoundLootItem;
 import dev.rosewood.roseloot.loot.item.TagLootItem;
 import dev.rosewood.roseloot.loot.item.VoucherLootItem;
@@ -401,6 +403,9 @@ public class LootTableManager extends DelayedManager implements Listener {
 
         if (Bukkit.getPluginManager().isPluginEnabled("RoseStacker"))
             event.registerLootItem("rosestacker_stack_item", RoseStackerLootItem::fromSection);
+
+        if (Bukkit.getPluginManager().isPluginEnabled("SCore"))
+            event.registerLootItem("score_variable", SCoreVariableLootItem::fromSection);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -437,6 +442,7 @@ public class LootTableManager extends DelayedManager implements Listener {
         event.registerLootCondition("humidity", HumidityCondition::new);
         event.registerLootCondition("in-fluid", InFluidCondition::new);
         event.registerLootCondition("input-item", InputItemCondition::new);
+        event.registerLootCondition("inventory-contains", InventoryContainsCondition::new);
         event.registerLootCondition("killed-by", KilledByCondition::new);
         event.registerLootCondition("light-level", LightLevelCondition::new);
         event.registerLootCondition("looter-entity-type", LooterEntityTypeCondition::new);
